@@ -44,16 +44,18 @@ RSpec.describe Garden do
   end
 
   describe 'instance method' do
-    it '#unique_plants_under_100' do
-      plant_names = @garden_1.unique_plants_under_100.map do |plant|
-        plant[0]
+    describe '#unique_plants_under_100' do
+      it 'returns unique plants that harvest under 100 days' do
+        plant_names = @garden_1.unique_plants_under_100.map do |plant|
+          plant[0]
+        end
+
+        expected = ['Carrots', 'Peas', 'Watermelon', 'Yellow Bell Peppers']
+
+        expect(plant_names).to match_array(expected)
+        expect(plant_names).to_not include('Purple Sweet Potatoes')
+        expect(plant_names).to_not include('Cucumbers')
       end
-
-      expected = ['Carrots', 'Peas', 'Watermelon', 'Yellow Bell Peppers']
-
-      expect(plant_names).to match_array(expected)
-      expect(plant_names).to_not include('Purple Sweet Potatoes')
-      expect(plant_names).to_not include('Cucumbers')
     end
   end
 end
