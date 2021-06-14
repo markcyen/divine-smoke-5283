@@ -1,0 +1,7 @@
+<h1><%= @garden.name %>' Show Page</h1>
+
+<section id="plants">
+  <% @garden_plants.each do |plant| %>
+    <%= plant[0] %>: <%= plant[1] %><br/>
+  <% end %>
+</section>
