@@ -3,5 +3,10 @@
 <% @plots.each do |plot| %>
   <section id="plot-<%= plot.id %>">
     <div>Plot <%= plot.number %></div><br/>
-  </section>
+  <% plot.plants.each do |plant| %>
+      <div id="plant-<%= plant.id %>">
+        <%= plant.name %><br/>
+      </div>
+  <% end %>
+  </section><br/>
 <% end %>
