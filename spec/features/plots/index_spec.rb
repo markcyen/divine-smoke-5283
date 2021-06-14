@@ -47,9 +47,26 @@ RSpec.describe 'Plots', type: :feature do
       end
     end
 
-    xit 'displays plant names under each plot' do
+    it 'displays plant names under each plot' do
       visit '/plots'
+save_and_open_page
+      within("#plot-#{@plot_1.id}") do
+        ['Carrots', 'Purple Sweet Potatoes', 'Watermelon'].each do |plant|
+          expect(page).to have_content(plant)
+        end
+      end
 
+      within("#plot-#{@plot_2.id}") do
+        ['Peas', 'Cucumbers', 'Yellow Bell Peppers'].each do |plant|
+          expect(page).to have_content(plant)
+        end
+      end
+
+      within("#plot-#{@plot_3.id}") do
+        ['Carrots', 'Watermelon', 'Cucumbers'].each do |plant|
+          expect(page).to have_content(plant)
+        end
+      end
     end
   end
 end
