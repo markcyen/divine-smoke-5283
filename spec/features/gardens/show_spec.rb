@@ -53,5 +53,19 @@ RSpec.describe 'Gardens', type: :feature do
         expect(page).to have_no_content(plant)
       end
     end
+
+    xit 'displays sorted number of plants by most to least days to harvest' do
+      visit "/gardens/#{@garden_1.id}"
+
+      ['Carrots', 'Yellow Bell Peppers', 'Peas'].each do |plant|
+        expect('Watermelon').to appear_before(plant)
+      end
+
+      ['Yellow Bell Peppers', 'Peas'].each do |plant|
+        expect('Carrots').to appear_before(plant)
+      end
+
+      expect('Yellow Bell Peppers').to appear_before('Peas')
+    end
   end
 end
