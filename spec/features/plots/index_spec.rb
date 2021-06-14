@@ -4,7 +4,7 @@ RSpec.describe 'Plots', type: :feature do
   describe 'index page' do
     before(:each) do
       @garden_1 = Garden.create!(name: 'Garden of Eden', organic: 'true')
-      # @garden_2 = Garden.create!(name: 'My Garden', organic: 'false')
+      @garden_2 = Garden.create!(name: 'My Garden', organic: 'false')
 
       @plot_1 = @garden_1.plots.create!(number: 30, size: 'Large', direction: 'East')
       @plot_2 = @garden_1.plots.create!(number: 10, size: 'Small', direction: 'South')
@@ -30,13 +30,11 @@ RSpec.describe 'Plots', type: :feature do
       PlotPlant.create!(plot: @plot_3, plant: @plant_3)
       PlotPlant.create!(plot: @plot_3, plant: @plant_5)
 
-      # @plot_4 = @garden_2.plots.create!(number: 15, size: 'Large', direction: 'North')
-      # @plot_5 = @garden_2.plots.create!(number: 5, size: 'Small', direction: 'East')
-      # @plot_6 = @garden_2.plots.create!(number: 10, size: 'Medium', direction: 'South')
-      #
-      # @plot_4.plants << @plant_2
-      # @plot_4.plants << @plant_4
-      # @plot_4.plants << @plant_6
+      @plot_4 = @garden_2.plots.create!(number: 15, size: 'Large', direction: 'North')
+
+      @plot_4.plants << @plant_2
+      @plot_4.plants << @plant_4
+      @plot_4.plants << @plant_6
     end
 
     it 'lists out all plot numbers' do
@@ -49,7 +47,7 @@ RSpec.describe 'Plots', type: :feature do
 
     it 'displays plant names under each plot' do
       visit '/plots'
-save_and_open_page
+
       within("#plot-#{@plot_1.id}") do
         ['Carrots', 'Purple Sweet Potatoes', 'Watermelon'].each do |plant|
           expect(page).to have_content(plant)
@@ -67,6 +65,18 @@ save_and_open_page
           expect(page).to have_content(plant)
         end
       end
+
+      within("#plot-#{@plot_4.id}") do
+        ['Purple Sweet Potatoes', 'Peas', 'Yellow Bell Peppers'].each do |plant|
+          expect(page).to have_content(plant)
+        end
+      end
+    end
+
+    it 'displays a link next to each plant for removal' do
+      visit '/plots'
+
+      expect(page).to have_link('Remove Plant', count: 12)
     end
   end
 end
