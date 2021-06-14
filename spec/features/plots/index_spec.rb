@@ -78,5 +78,25 @@ RSpec.describe 'Plots', type: :feature do
 
       expect(page).to have_link('Remove Plant', count: 12)
     end
+
+    it 'removes a plant from page' do
+      visit '/plots'
+
+      expect(page).to have_content('Yellow Bell Peppers')
+
+      within("#plot-#{@plot_2.id}") do
+        within("#plant-#{@plant_6.id}") do
+          click_link('Remove Plant')
+        end
+      end
+
+      expect(current_path).to eq('/plots')
+      within("#plot-#{@plot_2.id}") do
+        expect(page).to have_no_content('Yellow Bell Peppers')
+      end
+
+      expect(PlotPlant.where('plot_id = ? AND plant_id = ?', @plot_2.id, @plant_6.id).exists?).to eq(false)
+      expect(Plant.where('id = ?', @plant_6.id).exists?).to eq(true)
+    end
   end
 end
